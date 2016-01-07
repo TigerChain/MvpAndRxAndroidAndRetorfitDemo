@@ -11,8 +11,8 @@ import java.util.List;
 public interface IMainView {
 
 
-    void loadingSuccess() ;
-    void loadingFaield() ;
+    void loadingSuccess(String msg) ;
+    void loadingFaield(String msg) ;
 
     void showProgress() ;
     void hideProgress() ;

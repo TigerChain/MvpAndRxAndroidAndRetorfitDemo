@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.jun.mvpdemo.adapter.UserListAdapter;
 import com.jun.mvpdemo.api.RetrofitUserService;
@@ -68,12 +69,16 @@ public class MainActivity extends AppCompatActivity implements IMainView {
     }
 
     @Override
-    public void loadingSuccess() {
+    public void loadingSuccess(String msg) {
+
+        Toast.makeText(MainActivity.this,msg,Toast.LENGTH_SHORT).show(); ;
 
     }
 
     @Override
-    public void loadingFaield() {
+    public void loadingFaield(String msg) {
+
+        Toast.makeText(MainActivity.this,msg,Toast.LENGTH_SHORT).show();
 
     }
 

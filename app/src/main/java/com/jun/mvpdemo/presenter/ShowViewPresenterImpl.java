@@ -41,12 +41,12 @@ public class ShowViewPresenterImpl implements  IShowViewPresenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        iMainView.loadingFaield();
+                        iMainView.loadingFaield("loading failed");
                     }
 
                     @Override
                     public void onNext(List<Repo> repos) {
-                        iMainView.loadingSuccess();
+                        iMainView.loadingSuccess("loading success");
                         iMainView.reloadListViewByRepos(repos);
                     }
                 });
