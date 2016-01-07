@@ -6,7 +6,9 @@ import com.jun.mvpdemo.view.IMainView;
 
 import java.util.List;
 
+import rx.Observable;
 import rx.Subscriber;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -25,10 +27,10 @@ public class ShowViewPresenterImpl implements  IShowViewPresenter {
     }
 
     @Override
-    public void getUserListInfo(String userName) {
+    public Subscription getUserListInfo(String userName) {
         iMainView.showProgress();
 
-        userService.fetchUsersByKeyword(userName)
+       Subscription subscription =  userService.fetchUsersByKeyword(userName)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<Repo>>() {
@@ -48,6 +50,8 @@ public class ShowViewPresenterImpl implements  IShowViewPresenter {
                         iMainView.reloadListViewByRepos(repos);
                     }
                 });
+
+        return subscription ;
 
     }
 }

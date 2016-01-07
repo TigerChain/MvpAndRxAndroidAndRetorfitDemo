@@ -1,5 +1,7 @@
 package com.jun.mvpdemo.presenter;
 
+import rx.Subscription;
+
 /**
  * Author：JunJun
  * Description:
@@ -7,6 +9,6 @@ package com.jun.mvpdemo.presenter;
 public interface IShowViewPresenter {
 
    /**取得用户列表**/
-    void getUserListInfo(String name) ;
+    Subscription getUserListInfo(String name) ;
 
 }

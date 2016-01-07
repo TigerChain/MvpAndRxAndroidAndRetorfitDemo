@@ -30,7 +30,6 @@ public class MainActivity extends AppCompatActivity implements IMainView {
 
     private UserListAdapter adapter ;
 
-    /**和Observable被观察者是一回事**/
     private Subscription subscription ;
 
     private List<Repo> repoList = new ArrayList<>() ;
@@ -54,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements IMainView {
 
 
         //按理说这里应该是一个subscription ,好让我能去释放，以免内存溢出
-        ishowviewPresenter.getUserListInfo("hckhanh") ;
+        subscription =  ishowviewPresenter.getUserListInfo("hckhanh") ;
 
 
     }
