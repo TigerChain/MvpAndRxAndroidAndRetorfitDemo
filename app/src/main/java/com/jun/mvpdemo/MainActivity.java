@@ -1,108 +1,27 @@
 package com.jun.mvpdemo;
 
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ListView;
-import android.widget.Toast;
 
-import com.jun.mvpdemo.adapter.UserListAdapter;
-import com.jun.mvpdemo.api.RetrofitUserService;
-import com.jun.mvpdemo.model.Repo;
-import com.jun.mvpdemo.presenter.IShowViewPresenter;
-import com.jun.mvpdemo.presenter.ShowViewPresenterImpl;
-import com.jun.mvpdemo.view.IMainView;
+import com.jun.mvpdemo.fragment.ListRepoFragment;
+import com.jun.mvpdemo.fragment.ListRepoFragment_;
 
-import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import rx.Subscription;
-
+/****
+ * 这里的Activity只是用来管理Fragment的 它用来
+ */
 @EActivity(R.layout.activity_main)
-public class MainActivity extends AppCompatActivity implements IMainView {
+public class MainActivity extends AppCompatActivity  {
 
-    @ViewById
-    ListView lstview ;
-
-    private UserListAdapter adapter ;
-
-    private Subscription subscription ;
-
-    private List<Repo> repoList = new ArrayList<>() ;
-
-    private IShowViewPresenter ishowviewPresenter ;
-
-    private ProgressDialog progressDialog ;
-
-
-    @AfterViews
-    void setData(){
-        adapter = new UserListAdapter(MainActivity.this,repoList) ;
-        lstview.setAdapter(adapter);
-    }
+    private ListRepoFragment listRepoFragment ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        ishowviewPresenter = new ShowViewPresenterImpl(this, new RetrofitUserService()) ;
-
-
-        //按理说这里应该是一个subscription ,好让我能去释放，以免内存溢出
-        subscription =  ishowviewPresenter.getUserListInfo("hckhanh") ;
-
-
+        listRepoFragment = new ListRepoFragment_() ;
+        getSupportFragmentManager().beginTransaction().add(R.id.containl,listRepoFragment).show(listRepoFragment).commit() ;
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy() ;
-        if(!subscription.isUnsubscribed()){
-            subscription.unsubscribe();
-        }
-
-    }
-
-    @Override
-    public void loadingSuccess(String msg) {
-
-        Toast.makeText(MainActivity.this,msg,Toast.LENGTH_SHORT).show(); ;
-
-    }
-
-    @Override
-    public void loadingFaield(String msg) {
-
-        Toast.makeText(MainActivity.this,msg,Toast.LENGTH_SHORT).show();
-
-    }
-
-    @Override
-    public void showProgress() {
-
-        progressDialog = new ProgressDialog(this) ;
-        progressDialog.setMessage("Loading...");
-        progressDialog.show();
-
-    }
-
-    @Override
-    public void hideProgress() {
-        if(null != progressDialog){
-            progressDialog.dismiss();
-            progressDialog = null ;
-        }
-
-    }
-
-    @Override
-    public void reloadListViewByRepos(List<Repo> repos) {
-        repoList.addAll(repos) ;
-        adapter.notifyDataSetChanged();
-    }
 }
